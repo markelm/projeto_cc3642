@@ -2,7 +2,7 @@
 #include <iostream>
 #include "labproject.h"
 #include <random>
-
+#include <vector>
 using namespace std;
 
 int main()
@@ -17,7 +17,8 @@ int main()
     //______________End of random number generator______________________
 
 
-    vector <tableEntry*> t;
+    vector <tableEntry*> temp_table;
+    vector <tableEntry> table;
 
     int e;
     int i;
@@ -26,17 +27,26 @@ int main()
 
     for(i=0;i<e;i++)
     {
-    	t.push_back(new tableEntry);
+    	temp_table.push_back(new tableEntry);
     }
+     for(i=0;i<e;i++)
+    {
+    	table.push_back(temp_table[i]);
+    }
+    temp_table.clear();
 
     for(i=0;i<e;i++)
     {
-    	cout << "x: " << t[i]->getX() << " y: " << t[i]->getY() << endl;
+    	cout << "x: " << table[i].getX() << " y: " << table[i].getY() << endl;
     }
 
 	int j;
 	genome g1;
-	for(i=0;i<6;i++)
+	int coef;
+	cout << "Digite o grau do polinomio: ";
+	cin >> coef;
+
+	for(i=0;i<(coef + 1);i++)
 	{
 		g1.setCoeficient(dist(rng));
 		cout << g1.getCoeficient(j) << " ";
