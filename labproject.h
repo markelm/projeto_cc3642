@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <vector>
-#import <random>
+#include <random>
 
 using namespace std;
 
@@ -37,4 +37,4 @@ public:
 private:
 	int x;
 	int y;
-}
+};

@@ -17,8 +17,8 @@ int main()
     //______________End of random number generator______________________
 
 
-    vector <x_and_y*> t;
-    t.push_back(new x_and_y);
+    vector <table*> t;
+    t.push_back(new table);
 
 	int j;
 	genome g1;
