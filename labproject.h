@@ -21,3 +21,20 @@ class genome
 		vector <double> coeficients;
 
 };
+
+class table
+{
+public:
+	table()
+	{
+		cout << "Digite o valor de x: ";
+		cin >> this->x;
+		puts("");
+		cout << "Digite o valor de y: ";
+		cin >> this->y;
+		puts("");
+	}
+private:
+	int x;
+	int y;
+}
