@@ -17,12 +17,26 @@ int main()
     //______________End of random number generator______________________
 
 
-    vector <table*> t;
-    t.push_back(new table);
+    vector <tableEntry*> t;
+
+    int e;
+    int i;
+    cout << "Digite o numero de entradas da tabale x->y:";
+    cin >> e;
+
+    for(i=0;i<e;i++)
+    {
+    	t.push_back(new tableEntry);
+    }
+
+    for(i=0;i<e;i++)
+    {
+    	cout << "x: " << t[i]->getX() << " y: " << t[i]->getY() << endl;
+    }
 
 	int j;
 	genome g1;
-	for(j=0;j<6;j++)
+	for(i=0;i<6;i++)
 	{
 		g1.setCoeficient(dist(rng));
 		cout << g1.getCoeficient(j) << " ";

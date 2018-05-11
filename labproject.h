@@ -22,10 +22,10 @@ class genome
 
 };
 
-class table
+class tableEntry
 {
 public:
-	table()
+	tableEntry()
 	{
 		cout << "Digite o valor de x: ";
 		cin >> this->x;
@@ -33,6 +33,15 @@ public:
 		cout << "Digite o valor de y: ";
 		cin >> this->y;
 		puts("");
+	}
+
+	int getX()
+	{
+		return this->x;
+	}
+	int getY()
+	{
+		return this->y;
 	}
 private:
 	int x;
