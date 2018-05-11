@@ -16,6 +16,10 @@ int main()
 
     //______________End of random number generator______________________
 
+
+    vector <x_and_y*> t;
+    t.push_back(new x_and_y);
+
 	int j;
 	genome g1;
 	for(j=0;j<6;j++)
