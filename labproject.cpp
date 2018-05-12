@@ -31,16 +31,15 @@ int main()
     }
      for(i=0;i<e;i++)
     {
-    	table.push_back(temp_table[i]);
+    	table.push_back(*(temp_table[i]));
     }
     temp_table.clear();
 
-    for(i=0;i<e;i++)
+    for(i=0;i<table.size();i++)
     {
     	cout << "x: " << table[i].getX() << " y: " << table[i].getY() << endl;
     }
 
-	int j;
 	genome g1;
 	int coef;
 	cout << "Digite o grau do polinomio: ";
@@ -49,7 +48,7 @@ int main()
 	for(i=0;i<(coef + 1);i++)
 	{
 		g1.setCoeficient(dist(rng));
-		cout << g1.getCoeficient(j) << " ";
+		cout << g1.getCoeficient(i) << " ";
 	}
 	puts("");
 	return 0;
