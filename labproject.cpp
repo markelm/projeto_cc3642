@@ -22,6 +22,7 @@ int main()
 
     int e;
     int i;
+    int j;
     cout << "Digite o numero de entradas da tabale x->y:";
     cin >> e;
 
@@ -40,16 +41,28 @@ int main()
     	cout << "x: " << table[i].getX() << " y: " << table[i].getY() << endl;
     }
 
-	genome g1;
+    genome g1;
 	int coef;
 	cout << "Digite o grau do polinomio: ";
 	cin >> coef;
 
-	for(i=0;i<(coef + 1);i++)
+    vector <genome*> temp_population;
+    vector <genome> population;
+    for(i=0;i<1000;i++)
+    {
+    	temp_population.push_back(new genome);
+    	population.push_back(*(temp_population[i]));
+    }
+    temp_population.clear();
+
+	for(j=0;j<population.size();j++)
 	{
-		g1.setCoeficient(dist(rng));
-		cout << g1.getCoeficient(i) << " ";
+		for(i=0;i<(coef + 1);i++)
+		{
+			population[j].setCoeficient(dist(rng));
+			cout << population[j].getCoeficient(i) << " ";
+		}
+		puts("");
 	}
-	puts("");
 	return 0;
 }
