@@ -46,21 +46,21 @@ int main()
 	cout << "Digite o grau do polinomio: ";
 	cin >> coef;
 
-    vector <genome*> temp_population;
-    vector <genome> population;
-    for(i=0;i<1000;i++)
+    vector <genome*> temp_initialPopulation;
+    vector <genome> initialPopulation;
+    for(i=0;i<10;i++)
     {
-    	temp_population.push_back(new genome);
-    	population.push_back(*(temp_population[i]));
+    	temp_initialPopulation.push_back(new genome);
+    	initialPopulation.push_back(*(temp_initialPopulation[i]));
     }
-    temp_population.clear();
+    temp_initialPopulation.clear();
 
-	for(j=0;j<population.size();j++)
+	for(j=0;j<initialPopulation.size();j++)
 	{
 		for(i=0;i<(coef + 1);i++)
 		{
-			population[j].setCoeficient(dist(rng));
-			cout << population[j].getCoeficient(i) << " ";
+			initialPopulation[j].setCoeficient(dist(rng));
+			cout << initialPopulation[j].getCoeficient(i) << " ";
 		}
 		puts("");
 	}
