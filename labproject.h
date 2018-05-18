@@ -64,11 +64,39 @@ private:
 class population
 {
 public:
-	genome getOrganism(int i)
+	void setOrganisms(vector<genome> a, int e)
 	{
-		return this->organism[i];
+		for(e=0;e<a.size();e++)
+		{
+			this->organisms.push_back(a[e]);
+		}
+	}
+	vector<genome> getOrganisms(int i)
+	{
+		return this->organisms;
+	}
+	vector<genome> getFittest(int i)
+	{
+		return this->fittest;
 	}
 private:
 	vector <genome> organisms;
-	vector <genome> fittest
+	vector <genome> fittest;
+};
+
+class populationOffspring: public genome
+{
+	public:
+		void setOffspring()
+		{
+			
+		}
+		vector<genome> getOffspring()
+		{
+			return this->offspring;
+		}
+	private:
+		genome mate1;
+		genome mate2;
+		vector<genome> offspring;
 };

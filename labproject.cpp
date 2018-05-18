@@ -41,7 +41,6 @@ int main()
     	cout << "x: " << table[i].getX() << " y: " << table[i].getY() << endl;
     }
 
-    genome g1;
 	int coef;
 	cout << "Digite o grau do polinomio: ";
 	cin >> coef;
@@ -63,6 +62,11 @@ int main()
 			cout << initialPopulation[j].getCoeficient(i) << " ";
 		}
 		puts("");
+	}
+	population p1;
+	for(i=0;i<initialPopulation.size();i++)
+	{
+		p1.setOrganisms(initialPopulation, i);
 	}
 	return 0;
 }
