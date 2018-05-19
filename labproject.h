@@ -5,10 +5,36 @@
 
 using namespace std;
 
+class randNum{
+private:
+	mt19937 rng;
+	
+public:
+	randNum(){
+		rng.seed(random_device()());
+	}
+
+	int nextInt(int min, int max){
+		uniform_int_distribution<mt19937::result_type> dist
+		return dist(rng);
+	}
+
+	float nextFloat(float  min, float max){
+		uniform_int_distribution<mt19937::result_type> dist
+		return dist(rng);
+	}
+
+};
+
 class genome
 {
 	public:
-		void setCoeficient(double b)
+		void setCoeficient(double b, int pos)
+		{
+			coeficients[pos] = b;		
+		}
+
+		void addCoeficient(double b)
 		{
 			coeficients.push_back(b);		
 		}
@@ -27,6 +53,10 @@ class genome
 		int getMateSelector()
 		{
 			return this->mateSelector;
+		}
+
+		int size(){
+			return coeficients.size();
 		}
 	private:
 		vector <double> coeficients;
@@ -61,11 +91,30 @@ private:
 	int y;
 };
 
+class GA{
+	private:
+		population pop;
+		int deg;
+		int n_gen;
+		int c_gen;
+		
+	public:
+		GA(int deg, int n_gen): deg(deg), n_gen(n_gen), c_gen(0){
+
+		}
+
+		void generateRandomPopulation(){
+
+		}
+
+};
+
 class population
 {
 public:
-	void setOrganisms(vector<genome> a, int e)
+	void setOrganisms(vector<genome> a)
 	{
+		int e;
 		for(e=0;e<a.size();e++)
 		{
 			this->organisms.push_back(a[e]);
@@ -79,24 +128,65 @@ public:
 	{
 		return this->fittest;
 	}
+
+	vector<genome> getOffspring(int i, int j)
+	{
+
+		return this->offspring;
+	}
+
 private:
 	vector <genome> organisms;
 	vector <genome> fittest;
 };
 
-class populationOffspring: public genome
-{
-	public:
-		void setOffspring()
-		{
-			
-		}
-		vector<genome> getOffspring()
-		{
+class Offspring{
+protected:
+	vector<genome> fittest;
+	vector<genome> offspring;
+
+
+
+public:
+	Offspring(vector<genome> fittest) : fittest(fittest){
+		rng.seed(random_device()());
+	}
+	
+	vector<genome> getOffspring()
+	{
 			return this->offspring;
+	}
+	virtual vector<genome> makeOffspring(int num) = 0;
+};
+
+class onePointCross: public Offspring
+{
+private:
+	randNum numGen;
+
+	public:
+		populationOffspring(vector<genome> fit) : Offspring(fit){}
+
+	void makeOffspring(int num)
+	{
+		for(int k=0;k<num;k++){
+			int pa = numGen.nextInt(0, fittest.size());
+			int pb = numGen.nextInt(0, fittest.size());
+
+			int p = numGen.nextInt(0, fittest[0].size());
+
+			genome res;
+			for(int i = 0 ; i< fittest[pa].size(); i++){
+				if(i < p){
+					res.addCoeficient(fittest[pa].getCoeficient(i));
+				}else{
+					res.addCoeficient(fittest[pb].getCoeficient(i));
+				}
+			}
+
+			offspring.push_back(res);
 		}
-	private:
-		genome mate1;
-		genome mate2;
-		vector<genome> offspring;
+
+	}
+		
 };
