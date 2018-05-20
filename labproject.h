@@ -15,12 +15,12 @@ public:
 	}
 
 	int nextInt(int min, int max){
-		uniform_int_distribution<mt19937::result_type> dist
+		uniform_int_distribution<mt19937::result_type> dist(min, max);
 		return dist(rng);
 	}
 
 	float nextFloat(float  min, float max){
-		uniform_int_distribution<mt19937::result_type> dist
+		uniform_int_distribution<mt19937::result_type> dist(min, max);
 		return dist(rng);
 	}
 
@@ -145,11 +145,9 @@ protected:
 	vector<genome> fittest;
 	vector<genome> offspring;
 
-
-
 public:
 	Offspring(vector<genome> fittest) : fittest(fittest){
-		rng.seed(random_device()());
+		//rng.seed(random_device()());
 	}
 	
 	vector<genome> getOffspring()
