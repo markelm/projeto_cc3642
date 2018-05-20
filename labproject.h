@@ -91,24 +91,6 @@ private:
 	int y;
 };
 
-class GA{
-	private:
-		population pop;
-		int deg;
-		int n_gen;
-		int c_gen;
-		
-	public:
-		GA(int deg, int n_gen): deg(deg), n_gen(n_gen), c_gen(0){
-
-		}
-
-		void generateRandomPopulation(){
-
-		}
-
-};
-
 class population
 {
 public:
@@ -129,15 +111,33 @@ public:
 		return this->fittest;
 	}
 
-	vector<genome> getOffspring(int i, int j)
+	/*vector<genome> getOffspring(int i, int j)
 	{
 
 		return this->offspring;
-	}
+	}*/
 
 private:
 	vector <genome> organisms;
 	vector <genome> fittest;
+};
+
+class GA{
+	private:
+		population pop;
+		int deg;
+		int n_gen;
+		int c_gen;
+		
+	public:
+		GA(int deg, int n_gen): deg(deg), n_gen(n_gen), c_gen(0){
+
+		}
+
+		void generateRandomPopulation(){
+
+		}
+
 };
 
 class Offspring{
@@ -154,7 +154,7 @@ public:
 	{
 			return this->offspring;
 	}
-	virtual vector<genome> makeOffspring(int num) = 0;
+	virtual /*vector<genome>*/ void makeOffspring(int num) = 0;
 };
 
 class onePointCross: public Offspring
@@ -163,7 +163,7 @@ private:
 	randNum numGen;
 
 	public:
-		populationOffspring(vector<genome> fit) : Offspring(fit){}
+		//populationOffspring(vector<genome> fit) : Offspring(fit){}
 
 	void makeOffspring(int num)
 	{

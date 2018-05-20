@@ -53,7 +53,7 @@ int main()
     	initialPopulation.push_back(*(temp_initialPopulation[i]));
     }
     temp_initialPopulation.clear();
-
+    /*
 	for(j=0;j<initialPopulation.size();j++)
 	{
 		for(i=0;i<(coef + 1);i++)
@@ -67,6 +67,6 @@ int main()
 	for(i=0;i<initialPopulation.size();i++)
 	{
 		p1.setOrganisms(initialPopulation, i);
-	}
+	}*/
 	return 0;
 }
