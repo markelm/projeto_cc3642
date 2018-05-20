@@ -130,6 +130,10 @@ public:
 	{
 		return numberOfEntries;
 	}
+	tableEntry getTableEntry(int e)
+	{
+		return xyTable[e];
+	}
 private:
 	int numberOfEntries;
 	vector <tableEntry> xyTable;
@@ -246,7 +250,7 @@ public:
 			double result = 0;
 			for(c=0;c<g.size();c++)
 			{
-				result += pow(g.getCoeficient(c), g.size() - s);
+				result += g.getCoeficient(c)*pow(t.getTableEntry(e).getX(), g.size() - s);
 				s += 1;
 			}
 			g.addResult(result);
