@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <cmath>
 
 using namespace std;
 
@@ -58,9 +59,14 @@ class genome
 		int size(){
 			return coeficients.size();
 		}
+		void addResult(double r)
+		{
+			resY.push_back(r);
+		}
 	private:
 		vector <double> coeficients;
 		double fitness;
+		vector <double> resY;
 		int mateSelector;
 
 };
@@ -68,27 +74,65 @@ class genome
 class tableEntry
 {
 public:
-	tableEntry()
+	void setTableEntries(double x, double y)
 	{
-		cout << "Digite o valor de x: ";
-		cin >> this->x;
-		puts("");
-		cout << "Digite o valor de y: ";
-		cin >> this->y;
-		puts("");
+		this->x = x;
+		this->y = y;
 	}
-
-	int getX()
+	double getX()
 	{
 		return this->x;
 	}
-	int getY()
+	double getY()
 	{
 		return this->y;
 	}
+	void setX(double x)
+	{
+		this->x = x;
+	}
+	void setY(double y)
+	{
+		this->y = y;
+	}
+	virtual ~tableEntry(){}
+protected:
+	double x;
+	double y;
+};
+
+class table: public tableEntry
+{
+public:
+	table()
+	{
+		cout << "Quantas entradas serao incluidas na tabela x-y? ";
+		cin >> this->numberOfEntries;
+		int i;
+		for(i=0;i<this->numberOfEntries;i++)
+		{
+			cout << "Digite o valor de x " << "da " << i+1 << " entrada na tabela: ";
+			cin >> this->x;
+			puts("");
+			cout << "Digite o valor de y " << "da " << i+1 << " entrada na tabela: ";
+			cin >> this->y;
+			puts("");
+			tableEntry t;
+			t.setTableEntries(this->x, this->y);
+			this->xyTable.push_back(t);
+		}
+	}
+	void addToTable(tableEntry tEntry)
+	{
+		xyTable.push_back(tEntry);
+	}
+	int getTableSize()
+	{
+		return numberOfEntries;
+	}
 private:
-	int x;
-	int y;
+	int numberOfEntries;
+	vector <tableEntry> xyTable;
 };
 
 class population
@@ -187,4 +231,25 @@ private:
 
 	}
 		
+};
+
+class polynomy: public table, public genome
+{
+public:
+	void makePolynomy(genome g, table t)
+	{
+		int e;
+		int c;
+		for(e=0; e<t.getTableSize(); e++)
+		{
+			int s = 1;
+			double result = 0;
+			for(c=0;c<g.size();c++)
+			{
+				result += pow(g.getCoeficient(c), g.size() - s);
+				s += 1;
+			}
+			g.addResult(result);
+		}
+	}
 };
