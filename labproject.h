@@ -27,50 +27,6 @@ public:
 
 };
 
-class genome
-{
-	public:
-		void setCoeficient(double b, int pos)
-		{
-			coeficients[pos] = b;		
-		}
-
-		void addCoeficient(double b)
-		{
-			coeficients.push_back(b);		
-		}
-
-		int getCoeficient(int c)
-		{
-			return this->coeficients[c];
-		}
-		void setMateSelector(int n)
-		{
-			mt19937 rng;
-		    rng.seed(random_device()());
-		    uniform_int_distribution<mt19937::result_type> distn(0,n);
-		    this->mateSelector = distn(rng);
-		}
-		int getMateSelector()
-		{
-			return this->mateSelector;
-		}
-
-		int size(){
-			return coeficients.size();
-		}
-		void addResult(double r)
-		{
-			resY.push_back(r);
-		}
-	private:
-		vector <double> coeficients;
-		double fitness;
-		vector <double> resY;
-		int mateSelector;
-
-};
-
 class tableEntry
 {
 public:
@@ -139,6 +95,64 @@ private:
 	vector <tableEntry> xyTable;
 };
 
+class genome
+{
+	public:
+		void setCoeficient(double b, int pos)
+		{
+			coeficients[pos] = b;		
+		}
+
+		void addCoeficient(double b)
+		{
+			coeficients.push_back(b);		
+		}
+
+		int getCoeficient(int c)
+		{
+			return this->coeficients[c];
+		}
+		void setMateSelector(int n)
+		{
+			mt19937 rng;
+		    rng.seed(random_device()());
+		    uniform_int_distribution<mt19937::result_type> distn(0,n);
+		    this->mateSelector = distn(rng);
+		}
+		int getMateSelector()
+		{
+			return this->mateSelector;
+		}
+
+		int size(){
+			return coeficients.size();
+		}
+		void addResult(double r)
+		{
+			resY.push_back(r);
+		}
+		void setFitness(table t)
+		{
+			int r;
+			this->fitness = 0;
+			for(r=0;r<this->resY.size();r++)
+			{
+				double temp_res = this->resY[r] - t.getTableEntry(r).getY();
+				if(temp_res<0)
+				{
+					temp_res *= (-1);
+				}
+				this->fitness += temp_res;
+			}
+		}
+	private:
+		vector <double> coeficients;
+		double fitness;
+		vector <double> resY;
+		int mateSelector;
+
+};
+
 class population//Get the organisms and pick the fittest ones, then return them back to Offspring
 {
 public:
@@ -170,25 +184,7 @@ private:
 	vector <genome> fittest;
 };
 
-class GA{
-	private:
-		population pop;
-		int deg;
-		int n_gen;
-		int c_gen;
-		
-	public:
-		GA(int deg, int n_gen): deg(deg), n_gen(n_gen), c_gen(0){
-
-		}
-
-		void generateRandomPopulation(){
-
-		}
-
-};
-
-class Offspring//Get the offspring and give it to populaiton, then receive back the fittest ones
+class Offspring//Get the offspring and give it to population, then receive back the fittest ones
 {
 protected:
 	vector<genome> fittest;
@@ -257,6 +253,25 @@ public:
 			g.addResult(result);
 		}
 	}
+};
+
+class GA
+{
+	private:
+		population pop;
+		int deg;
+		int n_gen;
+		int c_gen;
+		
+	public:
+		GA(int deg, int n_gen, table tab): deg(deg), n_gen(n_gen), c_gen(0){
+
+		}
+
+		void generateRandomPopulation(){
+
+		}
+
 };
 
 
