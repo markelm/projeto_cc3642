@@ -139,7 +139,7 @@ private:
 	vector <tableEntry> xyTable;
 };
 
-class population
+class population//Get the organisms and pick the fittest ones, then return them back to Offspring
 {
 public:
 	void setOrganisms(vector<genome> a)
@@ -188,7 +188,8 @@ class GA{
 
 };
 
-class Offspring{
+class Offspring//Get the offspring and give it to populaiton, then receive back the fittest ones
+{
 protected:
 	vector<genome> fittest;
 	vector<genome> offspring;
@@ -257,3 +258,10 @@ public:
 		}
 	}
 };
+
+
+
+//to do list:
+//determine fittness (run the genome through the table comparing the results then sum the results)
+//(the ones closest to zero are the fittest)
+//introduce the mutation function in Offpring->fittest
