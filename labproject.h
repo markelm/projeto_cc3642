@@ -145,6 +145,30 @@ class genome
 				this->fitness += temp_res;
 			}
 		}
+		double getFitness()
+		{
+			return this->fitness;
+		}
+		void clearCoeficients()
+		{
+			this->coeficients.clear();
+		}
+		void getSumOfResults(table t)
+	{
+		int e;
+		int c;
+		for(e=0; e<t.getTableSize(); e++)
+		{
+			int s = 1;
+			double result = 0;
+			for(c=0;c<this->size();c++)
+			{
+				result += this->getCoeficient(c)*pow(t.getTableEntry(e).getX(), this->size() - s);
+				s += 1;
+			}
+			this->addResult(result);
+		}
+	}
 	private:
 		vector <double> coeficients;
 		double fitness;
@@ -153,24 +177,40 @@ class genome
 
 };
 
-class population//Get the organisms and pick the fittest ones, then return them back to Offspring
+class population//Recebe de Offspring organisms e seleliciona os melhores (fittest), depois os devolve para Offspring
 {
 public:
-	void setOrganisms(vector<genome> a)
+	void setOrganisms(genome a)
 	{
-		int e;
-		for(e=0;e<a.size();e++)
-		{
-			this->organisms.push_back(a[e]);
-		}
+			this->organisms.push_back(a);
 	}
-	vector<genome> getOrganisms(int i)
+	genome getOrganisms(int i)
 	{
-		return this->organisms;
+		return this->organisms[i];
 	}
 	vector<genome> getFittest(int i)
 	{
 		return this->fittest;
+	}
+	int getPopulationSize()
+	{
+		return this->organisms.size();
+	}
+	void setPopulationFitness(table t)
+	{
+		int i;
+		for(i=0;i<this->organisms.size();i++)
+		{
+			this->organisms[i].setFitness(t);
+		}
+	}
+	void getAllSums(table t)
+	{
+		int i;
+		for(i=0;i<this->organisms.size();i++)
+		{
+			this->organisms[i].getSumOfResults(t);
+		}
 	}
 
 	/*vector<genome> getOffspring(int i, int j)
@@ -184,7 +224,7 @@ private:
 	vector <genome> fittest;
 };
 
-class Offspring//Get the offspring and give it to population, then receive back the fittest ones
+class Offspring//Manda a offspring para population e recebe de volta os melhores fittest
 {
 protected:
 	vector<genome> fittest;
@@ -199,7 +239,7 @@ public:
 	{
 			return this->offspring;
 	}
-	virtual /*vector<genome>*/ void makeOffspring(int num) = 0;
+	virtual void makeOffspring(int num) = 0;
 };
 
 class onePointCross: public Offspring
@@ -234,7 +274,7 @@ private:
 		
 };
 
-class polynomy: public table, public genome
+/*class polynomy: public table, public genome
 {
 public:
 	void makePolynomy(genome g, table t)
@@ -253,22 +293,45 @@ public:
 			g.addResult(result);
 		}
 	}
-};
+};*/
 
 class GA
 {
 	private:
 		population pop;
+		Offspring off;
 		int deg;
 		int n_gen;
 		int c_gen;
+		table tab;
 		
 	public:
-		GA(int deg, int n_gen, table tab): deg(deg), n_gen(n_gen), c_gen(0){
-
+		GA(int deg, int n_gen): deg(deg), n_gen(n_gen), c_gen(0){
+			table t;//inicializa uma tabela que solicita ao usuario o numero de entradas e valores de x e y para cada entrada
+			this->tab = t;
 		}
 
 		void generateRandomPopulation(){
+			int i;
+			int k;
+			randNum numGen;
+			for(i=0;i<1000;i++)
+			{
+				genome g;
+				for(k=0;k<this->deg;k++)
+				{
+					g.addCoeficient(numGen.nextFloat(0, 1000));
+				}
+				this->pop.setOrganisms(g);
+				g.clearCoeficients();
+			}
+			for(i=0;i<this->pop.getPopulationSize();i++)
+			pop.getAllSums(this->tab);
+			pop.setPopulationFitness(tab);
+		}
+
+		void run()
+		{
 
 		}
 
@@ -277,6 +340,4 @@ class GA
 
 
 //to do list:
-//determine fittness (run the genome through the table comparing the results then sum the results)
-//(the ones closest to zero are the fittest)
 //introduce the mutation function in Offpring->fittest
