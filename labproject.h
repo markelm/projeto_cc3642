@@ -67,14 +67,16 @@ public:
 		int i;
 		for(i=0;i<this->numberOfEntries;i++)
 		{
+			double tempX;
+			double tempY;
 			cout << "Digite o valor de x " << "da " << i+1 << " entrada na tabela: ";
-			cin >> this->x;
+			cin >> tempX;
 			puts("");
 			cout << "Digite o valor de y " << "da " << i+1 << " entrada na tabela: ";
-			cin >> this->y;
+			cin >> tempY;
 			puts("");
 			tableEntry t;
-			t.setTableEntries(this->x, this->y);
+			t.setTableEntries(tempX, tempY);
 			this->xyTable.push_back(t);
 		}
 	}
@@ -426,10 +428,30 @@ class GA
 			}
 			this->pop.getAllSums(this->tab);
 			this->pop.setPopulationFitness(this->tab);
+			for(i=0;i<this->pop.getPopulationSize();i++)
+			{
+				if(pop.getOrganisms(i).getFitness() <=0.5)//verifica se foi encontrada uma solucao para o polinomio
+				{
+					cout << "Solucao: ";
+					int k;
+					for(k=0;k<pop.getOrganisms(i).size();k++)
+					{
+						cout << pop.getOrganisms(i).getCoeficient(k) << "  ";
+					}
+					puts("");
+				}
+			}
 		}
 
 		void run()
 		{
+			this->generateRandomPopulation();
+			this->fittestToReproduce();
+			while(this->c_gen<this->n_gen)
+			{
+				this->reproduce();
+				this->c_gen += 1;
+			}
 
 		}
 
@@ -439,4 +461,3 @@ class GA
 
 //to do list:
 //introduce the mutation function in Offpring->fittest
-//create an evaluate function inside genome that checks if it's fittness = 0, in which case the solution was found
