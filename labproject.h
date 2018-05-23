@@ -184,6 +184,10 @@ public:
 	{
 			this->organisms.push_back(a);
 	}
+	void eraseOrganisms()
+	{
+		this->organisms.clear();
+	}
 	genome getOrganisms(int i)
 	{
 		return this->organisms[i];
@@ -296,8 +300,8 @@ public:
 	{
 			return this->offspring;
 	}
-	virtual void makeOffspring(int num) = 0;
-	/*void makeOffspring(int num)
+	//virtual void makeOffspring(int num) = 0;
+	void makeOffspring(int num)
 	{
 		randNum numGen;
 		for(int k=0;k<num;k++){
@@ -315,13 +319,13 @@ public:
 				}
 			}
 
-			offspring.push_back(res);
+			this->offspring.push_back(res);
 		}
 
-	}*/
+	}
 };
 
-class onePointCross: public Offspring
+/*class onePointCross: public Offspring
 {
 private:
 	randNum numGen;
@@ -351,7 +355,7 @@ private:
 
 	}
 		
-};
+};*/
 
 /*class polynomy: public table, public genome
 {
@@ -396,16 +400,32 @@ class GA
 			for(i=0;i<1000;i++)
 			{
 				genome g;
-				for(k=0;k<this->deg;k++)
+				for(k=0;k<this->deg+1;k++)
 				{
 					g.addCoeficient(numGen.nextFloat(0, 1000));
 				}
 				this->pop.setOrganisms(g);
 				g.clearCoeficients();
 			}
-			for(i=0;i<this->pop.getPopulationSize();i++)
-			pop.getAllSums(this->tab);
-			pop.setPopulationFitness(tab);
+			this->pop.getAllSums(this->tab);
+			this->pop.setPopulationFitness(this->tab);
+		}
+		void fittestToReproduce()
+		{
+			this->pop.setFittest();
+		}
+		void reproduce()
+		{
+			Offspring off(this->pop.getFittest());
+			off.makeOffspring(1000);
+			this->pop.eraseOrganisms();
+			int i;
+			for(i=0;i<off.getOffspring().size();i++)
+			{
+				this->pop.setOrganisms(off.getOffspring()[i]);
+			}
+			this->pop.getAllSums(this->tab);
+			this->pop.setPopulationFitness(this->tab);
 		}
 
 		void run()
@@ -419,3 +439,4 @@ class GA
 
 //to do list:
 //introduce the mutation function in Offpring->fittest
+//create an evaluate function inside genome that checks if it's fittness = 0, in which case the solution was found
