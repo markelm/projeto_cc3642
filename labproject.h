@@ -188,7 +188,7 @@ public:
 	{
 		return this->organisms[i];
 	}
-	vector<genome> getFittest(int i)
+	vector<genome> getFittest()
 	{
 		return this->fittest;
 	}
@@ -212,6 +212,62 @@ public:
 			this->organisms[i].getSumOfResults(t);
 		}
 	}
+	void setFittest()
+	{
+		vector<double> orderedFitness;
+		vector<double> f;
+		int i;
+		for(i=0;i<this->getPopulationSize();i++)
+		{
+			f.push_back(getOrganisms(i).getFitness());
+		}
+		int temp = 0;
+		for(i=0;i<f.size();i++)
+		{
+			if(f[i]>temp)
+			{
+				temp = int(f[i]);
+			}
+		}
+		temp++;
+		int m[temp];
+		for(i=0;i<temp;i++)
+		{
+			m[i] = 0;
+		}
+		int k;
+		for(i=0;i<temp;i++)
+		{
+			for(k=0;k<f.size();k++)
+			{
+				if(f[k]==i)
+				{
+					m[i] == 1;
+				}
+			}
+		}
+		for(i=0;i<temp;i++)
+		{
+			if(m[i]==1)
+			{
+				for(k=0;k<f.size();k++)
+				{
+					if(int(f[k])==i)
+					{
+						orderedFitness.push_back(f[k]);
+					}
+				}
+			}
+		}
+		this->benchMark = orderedFitness[int(0.05*orderedFitness.size())];
+		for(i=0;i<this->organisms.size();i++)
+		{
+			if(organisms[i].getFitness() <= this->benchMark)
+			{
+				this->fittest.push_back(organisms[i]);
+			}
+		}
+	}
 
 	/*vector<genome> getOffspring(int i, int j)
 	{
@@ -220,6 +276,7 @@ public:
 	}*/
 
 private:
+	double benchMark;
 	vector <genome> organisms;
 	vector <genome> fittest;
 };
@@ -240,6 +297,28 @@ public:
 			return this->offspring;
 	}
 	virtual void makeOffspring(int num) = 0;
+	/*void makeOffspring(int num)
+	{
+		randNum numGen;
+		for(int k=0;k<num;k++){
+			int pa = numGen.nextInt(0, fittest.size());
+			int pb = numGen.nextInt(0, fittest.size());
+
+			int p = numGen.nextInt(0, fittest[0].size());
+
+			genome res;
+			for(int i = 0 ; i< fittest[pa].size(); i++){
+				if(i < p){
+					res.addCoeficient(fittest[pa].getCoeficient(i));
+				}else{
+					res.addCoeficient(fittest[pb].getCoeficient(i));
+				}
+			}
+
+			offspring.push_back(res);
+		}
+
+	}*/
 };
 
 class onePointCross: public Offspring
@@ -299,7 +378,6 @@ class GA
 {
 	private:
 		population pop;
-		Offspring off;
 		int deg;
 		int n_gen;
 		int c_gen;
