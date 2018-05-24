@@ -426,6 +426,14 @@ class GA
 			{
 				this->pop.setOrganisms(off.getOffspring()[i]);
 			}
+
+				//Faz aqui
+			for(i=0;i<off.getOffspring().size();i++)
+			{
+				this->pop[i] = mutacao(this->pop[i]);
+			}
+
+
 			this->pop.getAllSums(this->tab);
 			this->pop.setPopulationFitness(this->tab);
 			for(i=0;i<this->pop.getPopulationSize();i++)
