@@ -156,21 +156,33 @@ class genome
 			this->coeficients.clear();
 		}
 		void getSumOfResults(table t)
-	{
-		int e;
-		int c;
-		for(e=0; e<t.getTableSize(); e++)
 		{
-			int s = 1;
-			double result = 0;
-			for(c=0;c<this->size();c++)
+			int e;
+			int c;
+			for(e=0; e<t.getTableSize(); e++)
 			{
-				result += this->getCoeficient(c)*pow(t.getTableEntry(e).getX(), this->size() - s);
-				s += 1;
+				int s = 1;
+				double result = 0;
+				for(c=0;c<this->size();c++)
+				{
+					result += this->getCoeficient(c)*pow(t.getTableEntry(e).getX(), this->size() - s);
+					s += 1;
+				}
+				this->addResult(result);
 			}
-			this->addResult(result);
 		}
-	}
+		void mutate()
+		{
+			randNum n;
+			int g1 = n.nextInt(0, this->size());
+			int g2 = n.nextInt(0, this->size());
+			if(g1 != g2)
+			{
+				double a = this->coeficients[g1];
+				this->coeficients[g1] = this->coeficients[g2];
+				this->coeficients[g2] = a;
+			}
+		}
 	private:
 		vector <double> coeficients;
 		double fitness;
@@ -273,6 +285,10 @@ public:
 				this->fittest.push_back(organisms[i]);
 			}
 		}
+	}
+	void causeMutation(int i)
+	{
+		organisms[i].mutate();
 	}
 
 	/*vector<genome> getOffspring(int i, int j)
@@ -428,9 +444,14 @@ class GA
 			}
 
 				//Faz aqui
-			for(i=0;i<off.getOffspring().size();i++)
+			for(i=0;i<pop.getPopulationSize();i++)
 			{
-				this->pop[i] = mutacao(this->pop[i]);
+				randNum num;
+				int n = num.nextInt(0,1000);
+				if(n>800)
+				{
+					pop.causeMutation(i);
+				}
 			}
 
 
