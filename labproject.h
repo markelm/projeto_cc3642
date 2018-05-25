@@ -239,6 +239,7 @@ public:
 		{
 			f.push_back(getOrganisms(i).getFitness());
 		}
+
 		int temp = 0;
 		for(i=0;i<f.size();i++)
 		{
@@ -247,44 +248,55 @@ public:
 				temp = int(f[i]);
 			}
 		}
+
 		temp++;
 		int m[temp];
 		for(i=0;i<temp;i++)
 		{
 			m[i] = 0;
 		}
+
 		int k;
+
 		for(i=0;i<temp;i++)
 		{
 			for(k=0;k<f.size();k++)
 			{
 				if(f[k]==i)
 				{
-					m[i] == 1;
+					m[i] = 1;
+
 				}
 			}
 		}
 		for(i=0;i<temp;i++)
 		{
+			
 			if(m[i]==1)
 			{
+				
 				for(k=0;k<f.size();k++)
 				{
+					
 					if(int(f[k])==i)
 					{
 						orderedFitness.push_back(f[k]);
 					}
+					
 				}
 			}
 		}
-		this->benchMark = orderedFitness[int(0.05*orderedFitness.size())];
+		
+		this->benchMark = orderedFitness[50];
 		for(i=0;i<this->organisms.size();i++)
 		{
 			if(organisms[i].getFitness() <= this->benchMark)
 			{
 				this->fittest.push_back(organisms[i]);
 			}
+
 		}
+		
 	}
 	void causeMutation(int i)
 	{
@@ -323,8 +335,8 @@ public:
 	{
 		randNum numGen;
 		for(int k=0;k<num;k++){
-			int pa = numGen.nextInt(0, fittest.size());
-			int pb = numGen.nextInt(0, fittest.size());
+			int pa = numGen.nextInt(0, fittest.size()-1);
+			int pb = numGen.nextInt(0, fittest.size()-1);
 
 			int p = numGen.nextInt(0, fittest[0].size());
 
@@ -407,8 +419,8 @@ class GA
 		
 	public:
 		GA(int deg, int n_gen): deg(deg), n_gen(n_gen), c_gen(0){
-			table t;//inicializa uma tabela que solicita ao usuario o numero de entradas e valores de x e y para cada entrada
-			this->tab = t;
+			//table t;//inicializa uma tabela que solicita ao usuario o numero de entradas e valores de x e y para cada entrada
+			this->tab;
 		}
 
 		void generateRandomPopulation(){
@@ -425,8 +437,13 @@ class GA
 				this->pop.setOrganisms(g);
 				g.clearCoeficients();
 			}
+
 			this->pop.getAllSums(this->tab);
+
 			this->pop.setPopulationFitness(this->tab);
+
+			this->pop.setFittest();
+
 		}
 		void fittestToReproduce()
 		{
@@ -443,7 +460,6 @@ class GA
 				this->pop.setOrganisms(off.getOffspring()[i]);
 			}
 
-				//Faz aqui
 			for(i=0;i<pop.getPopulationSize();i++)
 			{
 				randNum num;
@@ -470,16 +486,19 @@ class GA
 					puts("");
 				}
 			}
+			this->pop.setFittest();
 		}
 
 		void run()
 		{
 			this->generateRandomPopulation();
-			this->fittestToReproduce();
+			int c = 0;
 			while(this->c_gen<this->n_gen)
 			{
 				this->reproduce();
 				this->c_gen += 1;
+				c += 1;
+				cout << "generation: " << c << endl;
 			}
 
 		}
