@@ -51,7 +51,6 @@ public:
 	{
 		this->y = y;
 	}
-	virtual ~tableEntry(){}
 protected:
 	double x;
 	double y;
@@ -419,7 +418,7 @@ class GA
 		
 	public:
 		GA(int deg, int n_gen): deg(deg), n_gen(n_gen), c_gen(0){
-			//table t;//inicializa uma tabela que solicita ao usuario o numero de entradas e valores de x e y para cada entrada
+			//inicializa uma tabela que solicita ao usuario o numero de entradas e valores de x e y para cada entrada
 			this->tab;
 		}
 
@@ -475,7 +474,7 @@ class GA
 			this->pop.setPopulationFitness(this->tab);
 			for(i=0;i<this->pop.getPopulationSize();i++)
 			{
-				if(pop.getOrganisms(i).getFitness() <=0.5)//verifica se foi encontrada uma solucao para o polinomio
+				if(pop.getOrganisms(i).getFitness() <=0.1)//verifica se foi encontrada uma solucao para o polinomio
 				{
 					cout << "Solucao: ";
 					int k;

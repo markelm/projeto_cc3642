@@ -8,8 +8,8 @@ using namespace std;
 int main()
 {
 
-    GA artie(2, 10000);
-    artie.run();
+    GA gen(2, 10000);
+    artie.gen();
 
 	return 0;
 }
