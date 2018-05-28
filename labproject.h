@@ -354,58 +354,7 @@ public:
 	}
 };
 
-/*class onePointCross: public Offspring
-{
-private:
-	randNum numGen;
 
-	public:
-		//populationOffspring(vector<genome> fit) : Offspring(fit){}
-
-	void makeOffspring(int num)
-	{
-		for(int k=0;k<num;k++){
-			int pa = numGen.nextInt(0, fittest.size());
-			int pb = numGen.nextInt(0, fittest.size());
-
-			int p = numGen.nextInt(0, fittest[0].size());
-
-			genome res;
-			for(int i = 0 ; i< fittest[pa].size(); i++){
-				if(i < p){
-					res.addCoeficient(fittest[pa].getCoeficient(i));
-				}else{
-					res.addCoeficient(fittest[pb].getCoeficient(i));
-				}
-			}
-
-			offspring.push_back(res);
-		}
-
-	}
-		
-};*/
-
-/*class polynomy: public table, public genome
-{
-public:
-	void makePolynomy(genome g, table t)
-	{
-		int e;
-		int c;
-		for(e=0; e<t.getTableSize(); e++)
-		{
-			int s = 1;
-			double result = 0;
-			for(c=0;c<g.size();c++)
-			{
-				result += g.getCoeficient(c)*pow(t.getTableEntry(e).getX(), g.size() - s);
-				s += 1;
-			}
-			g.addResult(result);
-		}
-	}
-};*/
 
 class GA
 {

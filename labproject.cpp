@@ -9,7 +9,7 @@ int main()
 {
 
     GA gen(2, 10000);
-    artie.gen();
+    gen.run();
 
 	return 0;
 }
